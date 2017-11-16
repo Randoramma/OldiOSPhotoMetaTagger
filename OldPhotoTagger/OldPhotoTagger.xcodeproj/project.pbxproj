@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D04DF6AC1FBE1D1B003FBB68 /* UTIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D04DF6AA1FBE1D1A003FBB68 /* UTIHelper.m */; };
+		D04DF6AD1FBE1D1B003FBB68 /* MetaImage.m in Sources */ = {isa = PBXBuildFile; fileRef = D04DF6AB1FBE1D1B003FBB68 /* MetaImage.m */; };
 		D092AD881FBD12DE00355EDE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D092AD871FBD12DE00355EDE /* AppDelegate.m */; };
 		D092AD8E1FBD12DE00355EDE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D092AD8C1FBD12DE00355EDE /* Main.storyboard */; };
 		D092AD901FBD12DE00355EDE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D092AD8F1FBD12DE00355EDE /* Assets.xcassets */; };
@@ -27,6 +29,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D04DF6A81FBE1D1A003FBB68 /* UTIHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UTIHelper.h; sourceTree = "<group>"; };
+		D04DF6A91FBE1D1A003FBB68 /* MetaImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MetaImage.h; sourceTree = "<group>"; };
+		D04DF6AA1FBE1D1A003FBB68 /* UTIHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UTIHelper.m; sourceTree = "<group>"; };
+		D04DF6AB1FBE1D1B003FBB68 /* MetaImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MetaImage.m; sourceTree = "<group>"; };
 		D059B39E1FBDEAFA008934C4 /* Macros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Macros.h; sourceTree = "<group>"; };
 		D092AD831FBD12DE00355EDE /* OldPhotoTagger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OldPhotoTagger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D092AD861FBD12DE00355EDE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -82,6 +88,10 @@
 		D092AD851FBD12DE00355EDE /* OldPhotoTagger */ = {
 			isa = PBXGroup;
 			children = (
+				D04DF6A91FBE1D1A003FBB68 /* MetaImage.h */,
+				D04DF6AB1FBE1D1B003FBB68 /* MetaImage.m */,
+				D04DF6A81FBE1D1A003FBB68 /* UTIHelper.h */,
+				D04DF6AA1FBE1D1A003FBB68 /* UTIHelper.m */,
 				D092AD861FBD12DE00355EDE /* AppDelegate.h */,
 				D092AD871FBD12DE00355EDE /* AppDelegate.m */,
 				D059B39E1FBDEAFA008934C4 /* Macros.h */,
@@ -207,8 +217,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D04DF6AC1FBE1D1B003FBB68 /* UTIHelper.m in Sources */,
 				D092ADAC1FBD13D500355EDE /* CameraViewController.m in Sources */,
 				D092AD961FBD12DE00355EDE /* main.m in Sources */,
+				D04DF6AD1FBE1D1B003FBB68 /* MetaImage.m in Sources */,
 				D092AD881FBD12DE00355EDE /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -360,8 +372,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = QWRJC78833;
+				DEVELOPMENT_TEAM = 4M69VP4H2D;
 				INFOPLIST_FILE = OldPhotoTagger/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = RandyMcLain.OldPhotoTagger;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -374,8 +387,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = QWRJC78833;
+				DEVELOPMENT_TEAM = 4M69VP4H2D;
 				INFOPLIST_FILE = OldPhotoTagger/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = RandyMcLain.OldPhotoTagger;
 				PRODUCT_NAME = "$(TARGET_NAME)";

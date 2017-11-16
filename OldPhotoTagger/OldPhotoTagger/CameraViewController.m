@@ -8,7 +8,9 @@
 
 #import "CameraViewController.h"
 #import "Macros.h"
-#import <AssetsLibrary/AssetsLibrary.h>
+#import "MetaImage.h"
+#import "UTIHelper.h"
+#import <Photos/Photos.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
 @interface CameraViewController ()
@@ -52,7 +54,8 @@
     
     cameraUI.delegate = delegate;
     
-    [controller presentModalViewController: cameraUI animated: YES];
+   // [controller presentModalViewController: cameraUI animated: YES];
+    [controller presentViewController:cameraUI animated:YES completion:nil];
     return YES;
 }
 
@@ -60,8 +63,6 @@
     [self startCameraControllerFromViewController: self
                                     usingDelegate: self];
 }
-
-
 
 - (void) imagePickerControllerDidCancel: (UIImagePickerController *) picker {
     
@@ -89,8 +90,53 @@
             imageToSave = originalImage;
         }
         
+        MetaImage *mi = [MetaImage newImage:imageToSave];
+        mi.exif[@"UserComment"] = @"This is a test comment";
+        char makerNoteString[] = "{'Info': {'device_id': 'S0000001','local_accuracy': 1.0, 'target_accuracy': 1.0 ,'pitch': 4.714753506998264,'roll': -89.9984219326346,'rotation': -90,'destination_altitude': 33.37687902208307,'declination': 0}}";
+        mi.exif[MAKERKEY] = [[NSString alloc] initWithCString:makerNoteString encoding:kCFStringEncodingUTF8];
+        NSNumber * latitude = [NSNumber numberWithDouble:47.4354956457547];
+        NSNumber * longitude = [NSNumber numberWithDouble:122.290824794171];
+        NSNumber * altitude = [NSNumber numberWithDouble:100.0];
+        NSNumber * imgDirection = [NSNumber numberWithDouble:333.0];
+        NSNumber * destDistance = [NSNumber numberWithDouble:0.010];
+        NSNumber * destLongitude = [NSNumber numberWithDouble:122.335800];
+        NSNumber * destLatitude = [NSNumber numberWithDouble:47.605800];
+        
+        mi.gps[LATKEY] = latitude;
+        mi.gps[LONGKEY] = longitude;
+        mi.gps[ALTITUDEKEY] = altitude;
+        mi.gps[DIRECTIONKEY] = imgDirection;
+        mi.gps[DESTDISTANCEKEY] = destDistance;
+        mi.gps[DESTLONGKEY] = destLongitude;
+        mi.gps[DESTLATKEY] = destLatitude;
+        
+        mi.gps[LATREFKEY] = @"N";
+        mi.gps[LONGREFKEY] = @"W";
+        mi.gps[DESTLATREFKEY] = @"N";
+        mi.gps[DESTLONGREFKEY] = @"W";
+        mi.gps[DESTDISTANCEREFKEY] = @"K";
+        mi.gps[GPSTIMEKEY] = @"12:30:19";
+        mi.gps[GPSDATEKEY] = @"2017:11:16";
+        
+        NSLog(@"%@", mi.properties);
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,  NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString *destPath = [documentsDirectory stringByAppendingPathComponent:@"temp.jpg"];
+        NSURL * destURL = [NSURL URLWithString:destPath];
+        
+        [mi writeToPath:destPath];
         // Save the new image (original or edited) to the Camera Roll
-        UIImageWriteToSavedPhotosAlbum (imageToSave, self, @selector(image:didFinishSavingWithError:contextInfo:) , nil);
+        __weak __typeof__(self) weakSelf = self;
+        [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+            [PHAssetChangeRequest creationRequestForAssetFromImageAtFileURL:destURL];
+        }   completionHandler:^(BOOL success, NSError *error) {
+            if (success) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf dismissViewControllerAnimated:TRUE completion:nil];
+                });
+            }
+        }];
+
     }
     
     // Handle a movie capture
@@ -107,6 +153,18 @@
     }
     
     [[picker parentViewController] dismissViewControllerAnimated:TRUE completion:nil];
+}
+
+// Finished saving
+- (void)image:(UIImage *)image didFinishSavingWithError: (NSError *)error contextInfo:(void *)contextInfo;
+{
+    // Handle the end of the image write process
+    if (!error) {
+        NSLog(@"Image written to photo album");
+        [self dismissViewControllerAnimated:TRUE completion:nil];
+    } else {
+        NSLog(@"Error writing to photo album: %@", error.localizedFailureReason);
+    }
 }
 
 
